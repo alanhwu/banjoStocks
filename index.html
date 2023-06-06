@@ -4,19 +4,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Banjo Stocks</title>
+  <title>My Stock List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #9cdcfe;
+      font-family: 'Dosis', sans-serif;
+    }
+    h1 {
+      text-align: center;
+      color: #569cd6;
+    }
+    p {
+      text-align: center;
+      color: #b5cea8;
+    }
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      color: #dcdcdc;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+    }
+    th {
+      background-color: #333;
+      color: #b5cea8;
+    }
+    .odd {
+      background-color: #2a2a2a;
+    }
+    .even {
+      background-color: #1a1a1a;
+    }
+    .ema-col {
+      color: #4EC9B0;
+    }
+  </style>
 </head>
 
 <body>
-  <h2>Oh Susanna, oh don't you cry for me</h2>
-  <h2>For I come from Alabama with my banjo on my knee</h2>
+  <h1>Oh Susanna, oh don't you cry for me</h1>
+  <h1>For I come from Alabama with my banjo on my knee</h1>
   <p id="last-updated"></p>
   <div id="table"></div>
 
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script>
     // Load CSV file
-    d3.csv("https://raw.githubusercontent.com/{alanhwu}/{banjoStocks}/master/stocks.csv").then(function (data) {
+    d3.csv("https://raw.githubusercontent.com/alanhwu/banjoStocks/master/stocks.csv").then(function (data) {
 
       // Create table
       var table = d3.select("#table").append("table"),
@@ -29,6 +67,7 @@
           .data(data.columns)
           .enter()
           .append("th")
+          .attr("class", function(d) { return d.includes('EMA') ? 'ema-col' : null; })
           .text(function (d) { return d; });
 
       // Append table body
@@ -36,6 +75,7 @@
           .data(data)
           .enter()
           .append("tr")
+          .attr("class", function(d, i) { return i % 2 === 0 ? 'even' : 'odd'; })
           .selectAll("td")
           .data(function (row) {
             return data.columns.map(function (column) {
@@ -48,7 +88,7 @@
     });
 
     // Fetch the latest commit data from the GitHub API
-    fetch('https://api.github.com/repos/{alanhwu}/{banjoStocks}/commits?path=stocks.csv&page=1&per_page=1')
+    fetch('https://api.github.com/repos/alanhwu/banjoStocks/commits?path=stocks.csv&page=1&per_page=1')
       .then(response => response.json())
       .then(data => {
         // Get the commit date and format it
