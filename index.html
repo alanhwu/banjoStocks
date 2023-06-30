@@ -63,6 +63,10 @@
           <input type="checkbox" id="secDerivCheckbox">
           Sec_deriv
         </label>
+        <label>
+          <input type="checkbox" id="athCheckbox">
+          ath
+        </label>
     </div>
     
 
@@ -93,11 +97,14 @@
         var fanning = document.getElementById("fanningCheckbox").checked;
         var inc = document.getElementById("incCheckbox").checked;
         var sec_deriv = document.getElementById("secDerivCheckbox").checked;
+        var ath = document.getElementById("athCheckbox").checked;
   
         var filteredData = data.filter(function(d) {
           return ((d.fanning == "True" || !fanning) &&
                   (d.inc == "True" || !inc) &&
-                  (d.sec_deriv == "True" || !sec_deriv));
+                  (d.sec_deriv == "True" || !sec_deriv) &&
+                  (d.ath == "True" || !ath)
+                  );
         });
   
         // Append table body
@@ -126,6 +133,7 @@
       document.getElementById("fanningCheckbox").addEventListener("change", filterData);
       document.getElementById("incCheckbox").addEventListener("change", filterData);
       document.getElementById("secDerivCheckbox").addEventListener("change", filterData);
+      document.getElementById("athCheckbox").addEventListener("change", filterData);
 
     }).catch(console.error);
   </script>
